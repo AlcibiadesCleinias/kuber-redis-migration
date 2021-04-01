@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-gate-tmp
+spec:
+  selector:
+    app: redis-gate
+  ports:
+  - port: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-tmp
+spec:
+  selector:
+    app: redis-tmp
+  ports:
+  - port: 6379
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-tmp
+  labels:
+    app: redis-tmp
+spec:
+  containers:
+  - name: redis-tmp
+    image: redis:6
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: python-tmp
+  labels:
+    app: python-tmp
+spec:
+  containers:
+  - name: python-tmp
+    image: python:3.8
+    command: ["/bin/sleep", "3650d"]
+    imagePullPolicy: IfNotPresent
